@@ -1,0 +1,7 @@
+---
+- name: Make sure is present (or install) openjdk-11
+  apt:
+    name:
+      - openjdk-11-jdk
+    state: present
+    update_cache: yes

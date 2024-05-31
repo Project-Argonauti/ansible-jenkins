@@ -1,0 +1,14 @@
+---
+- name: start docker
+  systemd:
+    name: docker
+    enabled: yes
+    daemon_reload: yes
+    state: started
+
+- name: start jenkins
+  systemd:
+    name: jenkins
+    enabled: yes
+    daemon_reload: yes
+    state: started

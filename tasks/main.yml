@@ -1,0 +1,29 @@
+---
+- name: Assert supported distros and versions
+  assert:
+    that:
+      - ( ansible_distribution == 'Debian' and ( ansible_distribution_major_version == '9' ) )
+        or ( ansible_distribution == 'Debian' and ( ansible_distribution_major_version == '10' ) )
+        or ( ansible_distribution == 'Ubuntu' and ( ansible_distribution_major_version == '18' ) )
+        or ( ansible_distribution == 'Ubuntu' and ( ansible_distribution_major_version == '19' ) )
+        or ( ansible_distribution == 'Ubuntu' and ( ansible_distribution_major_version == '20' ) )
+
+- name: Set UTC timezone
+  timezone:
+    name: Etc/UTC
+
+- name: Make sure tar and unzip binaries are present
+  apt:
+    name:
+      - unzip
+      - tar
+    state: present
+    update_cache: yes
+
+- include: java.yml
+- include: jenkins.yml
+- include: maven.yml
+- include: docker.yml
+- include: python.yml
+- include: virtualbox.yml
+- include: hashicorp.yml
