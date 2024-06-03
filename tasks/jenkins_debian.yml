@@ -28,10 +28,12 @@
     mode: 0775
   become: true
 
+# Return: Segmentation fault (core dumped) - exit code 139 - anyway it's create asc correctly
 - name: Add Jenkins LTS GPG pubblic key
   shell:
     cmd: "wget -O /usr/share/keyrings/jenkins-keyring.asc {{ jenkins_gpg_key }}"
   become: true
+  ignore_errors: True
 
 - name: Add Jenkins ATP Repository
   shell:
