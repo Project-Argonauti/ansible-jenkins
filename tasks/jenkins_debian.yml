@@ -30,7 +30,7 @@
 
 - name: Add Jenkins LTS GPG pubblic key
   shell:
-    cmd: "wget -O /usr/share/keyrings/jenkins-keyring.asc {{ jenkins_gpg_key }}"
+    cmd: "wget -O {{ jenkins_gpg_key }} /usr/share/keyrings/jenkins-keyring.asc "
   become: true
 
 - name: Add Jenkins ATP Repository
