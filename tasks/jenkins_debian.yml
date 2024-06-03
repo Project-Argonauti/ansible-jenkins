@@ -16,6 +16,8 @@
       - openjdk-17-jre
       - unzip
       - tar
+      - wget
+      - tee
     state: present
     update_cache: yes
   become: true
@@ -27,18 +29,29 @@
     mode: 0775
   become: true
 
-- name: Add Jenkins LTS GPG apt key
-  apt_key:
-    url: "{{ jenkins_gpg_key }}"
-    state: present
-    keyring: "/usr/share/keyrings/jenkins-keyring.asc"
+- name: Add Jenkins LTS GPG pubblic key
+  shell:
+    cmd: "wget -O /usr/share/keyrings/jenkins-keyring.asc {{ jenkins_gpg_key }}"
   become: true
 
-- name: Add Jenkins Repository
-  apt_repository:
-    repo: deb https://pkg.jenkins.io/debian-stable binary/
-    state: present
-    filename: jenkins
+- name: Add Jenkins ATP Repository
+  shell:
+    cmd: "echo \"deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]\" https://pkg.jenkins.io/debian-stable binary/ | tee /etc/apt/sources.list.d/jenkins.list > /dev/null"
+  become: true
+
+# "Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))
+#- name: Add Jenkins LTS GPG apt key
+#  apt_key:
+#    url: "{{ jenkins_gpg_key }}"
+#    state: present
+#    keyring: "/usr/share/keyrings/jenkins-keyring.asc"
+#  become: true
+#
+#- name: Add Jenkins Repository
+#  apt_repository:
+#    repo: deb https://pkg.jenkins.io/debian-stable binary/
+#    state: present
+#    filename: jenkins
 
 - name: Install Jenkins LTS
   apt:

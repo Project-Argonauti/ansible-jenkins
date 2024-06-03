@@ -16,4 +16,3 @@
   include_tasks: jenkins_debian.yml
   when: 
     - ansible_os_family == "Debian"
-
