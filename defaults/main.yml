@@ -1,3 +1,5 @@
 ---
 # defaults file for jenkins
-jenkins_maven_dir: /opt/maven
+# Was this url, but documentation report new one (https://pkg.jenkins.io/debian-stable/)
+#jenkins_gpg_key: "https://pkg.jenkins.io/<OSTYPE>-stable/jenkins.io.key"
+jenkins_gpg_key: "https://pkg.jenkins.io/{{ ansible_os_family|lower }}-stable/jenkins.io-2023.key"

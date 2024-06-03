@@ -1,16 +1,16 @@
 ---
-- name: Assert supported distros and versions
+- name: assert supported distributions and versions (Ubuntu LTS version)
   assert:
     that:
-      - ( ansible_distribution == 'Debian' and ( ansible_distribution_major_version == '9' ) )
-        or ( ansible_distribution == 'Debian' and ( ansible_distribution_major_version == '10' ) )
-        or ( ansible_distribution == 'Ubuntu' and ( ansible_distribution_major_version == '18' ) )
-        or ( ansible_distribution == 'Ubuntu' and ( ansible_distribution_major_version == '19' ) )
-        or ( ansible_distribution == 'Ubuntu' and ( ansible_distribution_major_version == '20' ) )
+      - ansible_distribution == 'Ubuntu'
+      - ansible_distribution_major_version|int in [20, 22]
+    fail_msg: "This role only supports Ubuntu 20.04 LTS or Ubuntu 22.04 LTS."
+    success_msg: "Supported Ubuntu version found."
 
 - name: Set UTC timezone
   timezone:
     name: Etc/UTC
+  become: true
 
 - name: Make sure tar and unzip binaries are present
   apt:

@@ -1,8 +1,0 @@
----
-- name: Make sure is present (or install) virtualbox
-  apt:
-    name:
-      - virtualbox
-      #- virtualbox—ext–pack
-    state: present
-    update_cache: yes

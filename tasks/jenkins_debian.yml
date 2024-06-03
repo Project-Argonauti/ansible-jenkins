@@ -1,0 +1,49 @@
+---
+# follow debian manual install: https://pkg.jenkins.io/debian-stable/
+
+- name: Make sure aptitude is present (using apt-get)
+  apt:
+    name: aptitude
+    state: latest
+    update_cache: yes
+    force_apt_get: yes
+  become: true
+
+- name: Make sure requirements are installed
+  apt:
+    name:
+      - fontconfig
+      - openjdk-17-jre
+      - unzip
+      - tar
+    state: present
+    update_cache: yes
+  become: true
+
+- name: Make sure keyring GPG-ASC folder exists
+  file:
+    path: "/usr/share/keyrings/"
+    state: directory
+    mode: 0775
+  become: true
+
+- name: Add Jenkins LTS GPG apt key
+  apt_key:
+    url: "{{ jenkins_gpg_key }}"
+    state: present
+    keyring: "/usr/share/keyrings/jenkins-keyring.asc"
+  become: true
+
+- name: Add Jenkins Repository
+  apt_repository:
+    repo: deb https://pkg.jenkins.io/debian-stable binary/
+    state: present
+    filename: jenkins
+
+- name: Install Jenkins LTS
+  apt:
+    name:
+      - jenkins
+    state: present
+    update_cache: yes
+  notify: start jenkins

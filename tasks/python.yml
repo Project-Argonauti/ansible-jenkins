@@ -1,9 +1,0 @@
----
-- name: Make sure is present (or install) python3
-  apt:
-    name:
-      - ansible
-      - python3
-      - python3-pip
-    state: present
-    update_cache: yes
