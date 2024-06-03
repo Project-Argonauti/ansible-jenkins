@@ -12,18 +12,8 @@
     name: Etc/UTC
   become: true
 
-- name: Make sure tar and unzip binaries are present
-  apt:
-    name:
-      - unzip
-      - tar
-    state: present
-    update_cache: yes
+- name: Install Jenkins for debain-like OS
+  include_tasks: jenkins_debian.yml
+  when: 
+    - ansible_os_family == "Debian"
 
-- include: java.yml
-- include: jenkins.yml
-- include: maven.yml
-- include: docker.yml
-- include: python.yml
-- include: virtualbox.yml
-- include: hashicorp.yml
